@@ -12,9 +12,12 @@ class LANG(object):
     HELP_TEXT = """
 <b>- ᴀᴅᴅ ᴍᴇ ᴀs ᴀɴ ᴀᴅᴍɪɴ ᴏɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ</b>
 <b>- sᴇɴᴅ ᴍᴇ ᴀɴʏ ᴅᴏᴄᴜᴍᴇɴᴛ ᴏʀ ᴍᴇᴅɪᴀ</b>
-<b>- ɪ'ʟʟ ᴘʀᴏᴠɪᴅᴇ sᴛʀᴇᴀᴍᴀʙʟᴇ ʟɪɴᴋ</b>\n
-<b>🔞 ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ.</b>\n
-<i><b> ʀᴇᴘᴏʀᴛ ʙᴜɢs ᴛᴏ <a href='https://telegram.me/AvishkarPatil'>ᴅᴇᴠᴇʟᴏᴘᴇʀ</a></b></i>"""
+<b>- ɪ'ʟʟ ᴘʀᴏᴠɪᴅᴇ sᴛʀᴇᴀᴍᴀʙʟᴇ ʟɪɴᴋ</b>
+
+<b>📺 sᴇʀɪᴇs ᴍᴏᴅᴇ:</b>
+<b>- /start_series <título> : ɪɴɪᴄɪᴀʀ ᴍᴏᴅᴏ sᴇʀɪᴇ</b>
+<b>- /finish_series : ғɪɴᴀʟɪᴢᴀʀ ʏ ɢᴇɴᴇʀᴀʀ ʟɪɴᴋs</b>\n
+<b>🔞 ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ.</b>\n"""
 
     ABOUT_TEXT = """
 <b>⚜ ᴍʏ ɴᴀᴍᴇ : {}</b>\n
@@ -41,6 +44,23 @@ class LANG(object):
 
     BAN_TEXT = "__Sᴏʀʀʏ Sɪʀ, Yᴏᴜ ᴀʀᴇ Bᴀɴɴᴇᴅ ᴛᴏ ᴜsᴇ ᴍᴇ.__\n\n**[Cᴏɴᴛᴀᴄᴛ Dᴇᴠᴇʟᴏᴘᴇʀ](tg://user?id={}) Tʜᴇʏ Wɪʟʟ Hᴇʟᴘ Yᴏᴜ**"
 
+    SERIES_HELP_TEXT = """
+<b>📺 ᴍᴏᴅᴏ sᴇʀɪᴇ - ɪɴsᴛʀᴜᴄᴄɪᴏɴᴇs:</b>
+
+<b>1. ɪɴɪᴄɪᴀʀ ᴍᴏᴅᴏ sᴇʀɪᴇ:</b>
+   /start_series <título de la serie>
+
+<b>2. ᴇɴᴠɪᴀʀ ᴇᴘɪsᴏᴅɪᴏs:</b>
+   - ғᴏʀᴍᴀᴛᴏs ᴅᴇ ɴᴏᴍʙʀᴇ sᴏᴘᴏʀᴛᴀᴅᴏs:
+   • S01E02
+   • 1x02
+   • Temporada 1 Episodio 2
+
+<b>3. ғɪɴᴀʟɪᴢᴀʀ:</b>
+   /finish_series
+   - ɢᴇɴᴇʀᴀ ᴀʀᴄʜɪᴠᴏs JSON ʏ TXT
+   - ʟɪɴᴋs ᴏʀɢᴀɴɪᴢᴀᴅᴏs ᴘᴏʀ ᴛᴇᴍᴘᴏʀᴀᴅᴀ"""
+
 
 class BUTTON(object):
     START_BUTTONS = InlineKeyboardMarkup(
@@ -49,6 +69,7 @@ class BUTTON(object):
             InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
             InlineKeyboardButton('ᴄʟᴏsᴇ', callback_data='close')
         ],
+            [InlineKeyboardButton("sᴇʀɪᴇs ᴍᴏᴅᴇ 📺", callback_data='series_help')],
             [InlineKeyboardButton("📢 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ", url=f'https://t.me/{Telegram.UPDATES_CHANNEL}')]
         ]
     )
@@ -58,6 +79,7 @@ class BUTTON(object):
             InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
             InlineKeyboardButton('ᴄʟᴏsᴇ', callback_data='close'),
         ],
+            [InlineKeyboardButton("sᴇʀɪᴇs ᴍᴏᴅᴇ 📺", callback_data='series_help')],
             [InlineKeyboardButton("📢 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ", url=f'https://t.me/{Telegram.UPDATES_CHANNEL}')]
         ]
     )

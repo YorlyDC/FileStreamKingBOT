@@ -1,0 +1,36 @@
+rules:
+  code_modification:
+    - "NUNCA eliminar código existente solo porque su propósito no es inmediatamente obvio"
+    - "Antes de modificar cualquier función existente:"
+      - "1. Entender completamente su propósito actual"
+      - "2. Identificar todas las partes del sistema que dependen de ella"
+      - "3. Analizar cómo se usa cada valor que retorna o procesa"
+      - "4. Documentar las dependencias y relaciones encontradas"
+    
+  function_extension:
+    - "Al extender funcionalidad existente:"
+      - "1. Mantener la lógica original intacta"
+      - "2. Agregar nueva funcionalidad de manera que complemente, no reemplace"
+      - "3. Asegurar que los casos de uso existentes sigan funcionando"
+      - "4. Validar que las modificaciones no afecten a los consumidores actuales"
+
+  investigation_required:
+    - "Si no se entiende el propósito de algún código:"
+      - "1. PREGUNTAR al usuario sobre su función"
+      - "2. Investigar dónde y cómo se usa en el proyecto"
+      - "3. Buscar referencias y dependencias en todo el codebase"
+      - "4. NO asumir que es innecesario solo porque no es obvio su uso"
+
+  critical_analysis:
+    - "Antes de cualquier eliminación de código:"
+      - "1. Demostrar con evidencia que el código es innecesario"
+      - "2. Documentar el impacto potencial de su eliminación"
+      - "3. Proponer y validar alternativas si es necesario"
+      - "4. Obtener aprobación explícita del usuario"
+
+  enhancement_approach:
+    - "Al agregar nueva funcionalidad a código existente:"
+      - "1. Estudiar cómo la función actual logra su propósito"
+      - "2. Extender la lógica existente de manera similar"
+      - "3. Mantener la consistencia con el estilo y patrones actuales"
+      - "4. Preservar la interfaz y comportamiento original"

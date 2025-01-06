@@ -1,10 +1,9 @@
-
 import asyncio
 from FileStream.bot import FileStream, multi_clients
 from FileStream.utils.bot_utils import is_user_banned, is_user_exist, is_user_joined, gen_link, is_channel_banned, is_channel_exist, is_user_authorized
 from FileStream.utils.database import Database
 from FileStream.utils.file_properties import get_file_ids, get_file_info
-from FileStream.config import Telegram
+from FileStream.config import Telegram, Server
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
@@ -37,14 +36,25 @@ async def private_receive_handler(bot: Client, message: Message):
     try:
         inserted_id = await db.add_file(get_file_info(message))
         await get_file_ids(False, inserted_id, multi_clients, message)
-        reply_markup, stream_text = await gen_link(_id=inserted_id)
-        await message.reply_text(
-            text=stream_text,
-            parse_mode=ParseMode.HTML,
-            disable_web_page_preview=True,
-            reply_markup=reply_markup,
-            quote=True
-        )
+
+        if await db.is_in_series_mode(message.from_user.id):
+            series_title = await db.get_current_series(message.from_user.id)
+            await db.add_series_file(message.from_user.id, inserted_id, get_file_info(message))
+            
+            await message.reply_text(
+                text=f"✅ Archivo agregado a la serie '{series_title}'\n\nEnvía más episodios o usa /finish_series para finalizar",
+                parse_mode=ParseMode.HTML,
+                quote=True
+            )
+        else:
+            reply_markup, stream_text = await gen_link(_id=inserted_id)
+            await message.reply_text(
+                text=stream_text,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
+                reply_markup=reply_markup,
+                quote=True
+            )
     except FloodWait as e:
         print(f"Sleeping for {str(e.value)}s")
         await asyncio.sleep(e.value)

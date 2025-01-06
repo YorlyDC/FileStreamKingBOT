@@ -35,6 +35,13 @@ async def cb_data(bot, update: CallbackQuery):
             disable_web_page_preview=True,
             reply_markup=BUTTON.ABOUT_BUTTONS
         )
+    elif usr_cmd[0] == "series":
+        if usr_cmd[1] == "help":
+            await update.message.edit_text(
+                text=LANG.SERIES_HELP_TEXT,
+                disable_web_page_preview=True,
+                reply_markup=BUTTON.HELP_BUTTONS
+            )
 
     #---------------------[ MY FILES CMD ]---------------------#
 

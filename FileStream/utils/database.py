@@ -132,3 +132,40 @@ class Database:
             await self.col.update_one({"id": id}, {"$inc": {"Links": -1}})
         elif operation == "+":
             await self.col.update_one({"id": id}, {"$inc": {"Links": 1}})
+
+    # Series Mode Methods
+    async def start_series_mode(self, user_id: int, series_title: str):
+        """Start series mode for a user"""
+        await self.col.update_one(
+            {"id": user_id},
+            {"$set": {"series_mode": True, "current_series": series_title, "series_files": []}}
+        )
+
+    async def end_series_mode(self, user_id: int):
+        """End series mode for a user"""
+        await self.col.update_one(
+            {"id": user_id},
+            {"$set": {"series_mode": False}, "$unset": {"current_series": "", "series_files": []}}
+        )
+
+    async def is_in_series_mode(self, user_id: int) -> bool:
+        """Check if user is in series mode"""
+        user = await self.col.find_one({"id": user_id})
+        return user.get("series_mode", False) if user else False
+
+    async def get_current_series(self, user_id: int) -> str:
+        """Get current series title for user"""
+        user = await self.col.find_one({"id": user_id})
+        return user.get("current_series") if user else None
+
+    async def add_series_file(self, user_id: int, file_id: str, file_info: dict):
+        """Add a file to the current series"""
+        await self.col.update_one(
+            {"id": user_id},
+            {"$push": {"series_files": {"file_id": file_id, "info": file_info}}}
+        )
+
+    async def get_series_files(self, user_id: int) -> list:
+        """Get all files for current series"""
+        user = await self.col.find_one({"id": user_id})
+        return user.get("series_files", []) if user else []
