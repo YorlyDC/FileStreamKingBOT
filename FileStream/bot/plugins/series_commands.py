@@ -1,4 +1,5 @@
 import logging
+import io
 from FileStream.bot import FileStream
 from FileStream.utils.bot_utils import is_user_authorized
 from FileStream.utils.database import Database
@@ -28,10 +29,13 @@ async def start_series_cmd(_, message: Message):
         return
 
     # Obtener el título de la serie
-    if len(message.command) < 2:
+    if len(message.command) == 1:  # Solo el comando sin título
         await message.reply_text(
-            "❌ Por favor proporciona el título de la serie\n"
-            "Uso: /start_series <título de la serie>",
+            "❌ Debes proporcionar el título de la serie\n\n"
+            "<b>Uso correcto:</b>\n"
+            "/start_series <título>\n\n"
+            "<b>Ejemplo:</b>\n"
+            "/start_series One Piece",
             parse_mode=ParseMode.HTML
         )
         return
@@ -44,12 +48,13 @@ async def start_series_cmd(_, message: Message):
     
     await message.reply_text(
         f"✅ Modo serie iniciado para '{series_title}'\n\n"
-        "Ahora puedes enviar los episodios. El nombre de cada archivo debe incluir "
-        "el número de temporada y episodio en alguno de estos formatos:\n"
-        "- S01E02\n"
-        "- 1x02\n"
-        "- Temporada 1 Episodio 2\n\n"
-        "Cuando termines, usa /finish_series para generar los links",
+        "<b>Instrucciones:</b>\n"
+        "1. Envía los episodios uno por uno\n"
+        "2. El nombre de cada archivo debe incluir temporada y episodio:\n"
+        "   • S01E02\n"
+        "   • 1x02\n"
+        "   • Temporada 1 Episodio 2\n\n"
+        "3. Cuando termines, usa /finish_series para generar los links",
         parse_mode=ParseMode.HTML
     )
 
@@ -96,16 +101,20 @@ async def finish_series_cmd(_, message: Message):
         json_data = series_handler.export_to_json()
         txt_data = series_handler.export_to_txt()
 
+        # Crear archivos en memoria
+        json_bytes = io.BytesIO(json_data.encode())
+        txt_bytes = io.BytesIO(txt_data.encode())
+
         # Enviar archivos
         await message.reply_document(
-            document=json_data.encode(),
+            document=json_bytes,
             file_name=f"{series_title}.json",
             caption="📄 Información de la serie en formato JSON",
             parse_mode=ParseMode.HTML
         )
 
         await message.reply_document(
-            document=txt_data.encode(),
+            document=txt_bytes,
             file_name=f"{series_title}.txt",
             caption="📄 Links de la serie organizados por temporada",
             parse_mode=ParseMode.HTML
